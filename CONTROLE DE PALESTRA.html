@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CONTROLE DE PALESTRA.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #0078D7; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Consolas;"><span class="cpp1-preprocessor">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;windows.h&gt; </span><span class="cpp1-comment">//delara&ccedil;&otilde;es para todas as fun&ccedil;&otilde;es na API do Windows, 
+</span><span class="cpp1-preprocessor">#include&lt;time.h&gt;
+#include&lt;stdbool.h&gt;
+
+</span><span class="cpp1-comment">//fun&ccedil;&atilde;o para mostrar o painel nas telas
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> cont_base,x,ticket;
+</span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> ra[</span><span class="cpp1-number">200</span><span class="cpp1-symbol">][</span><span class="cpp1-number">70</span><span class="cpp1-symbol">],nome[</span><span class="cpp1-number">200</span><span class="cpp1-symbol">][</span><span class="cpp1-number">70</span><span class="cpp1-symbol">],email[</span><span class="cpp1-number">200</span><span class="cpp1-symbol">][</span><span class="cpp1-number">70</span><span class="cpp1-symbol">],curso[</span><span class="cpp1-number">200</span><span class="cpp1-symbol">][</span><span class="cpp1-number">70</span><span class="cpp1-symbol">];
+</span><span class="cpp1-reservedword">float</span><span class="cpp1-space"> data[</span><span class="cpp1-number">200</span><span class="cpp1-symbol">][</span><span class="cpp1-number">100</span><span class="cpp1-symbol">],datar,cpf[</span><span class="cpp1-number">200</span><span class="cpp1-symbol">][</span><span class="cpp1-number">70</span><span class="cpp1-symbol">];
+
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> zerari,zerarj,linha,coluna,j,i;
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> cad[</span><span class="cpp1-number">17</span><span class="cpp1-symbol">][</span><span class="cpp1-number">10</span><span class="cpp1-symbol">],pdccad[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">10</span><span class="cpp1-symbol">],convcad[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">][</span><span class="cpp1-number">10</span><span class="cpp1-symbol">];
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> zeraripcd,zerarjpcd,linhapcd,colunapcd;
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> pcdcad[</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">10</span><span class="cpp1-symbol">];
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> zerariconv,zerarjconv,linhaconv,colunaconv;
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> convcad[</span><span class="cpp1-number">2</span><span class="cpp1-symbol">][</span><span class="cpp1-number">10</span><span class="cpp1-symbol">];
+
+</span><span class="cpp1-comment">//sorteio
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> contsorteio[</span><span class="cpp1-number">100</span><span class="cpp1-symbol">];
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> numsorte;
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> validap, validapcd, validac;
+	validap=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	validapcd=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	validac=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> painelc()
+{
+
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t ____________________________________________________________\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|                                                            |\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|------------------ SISTEMA DE CADASTOS ---------------------|\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|____________________________________________________________|\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> painelcert()
+{
+
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t ____________________________________________________________\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|                                                            |\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|------------------ CONFIRMACAO DE ENVIO --------------------|\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|____________________________________________________________|\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> painels()
+{
+
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t ____________________________________________________________\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|                                                            |\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|----------------- SORTEIO DE BRINDES -----------------------|\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|____________________________________________________________|\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> painelcer()
+{
+
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t ____________________________________________________________\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|                                                            |\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|----------------- CERTIFICADO DA PALESTRA-------------------|\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t|____________________________________________________________|\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> planta()
+{
+	printf(</span><span class="cpp1-string">&quot;\n\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t.__________________________________________________________________________________________.\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t|..........................................................................................|\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t|..........................................Palco...........................................|\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t|__________________________________________________________________________________________|\n\n\n&quot;</span><span class="cpp1-symbol">);
+	
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> paineli()
+{
+
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t==============================================================\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t================= Noite de Palestas - UNIP====================\n&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t==============================================================\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+	
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> novocadastro()
+{
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> escolha;
+	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+	paineli();
+	printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\nDeseja um novo cadastro\n0- Sim\n9- Voltar ao menu\n&quot;</span><span class="cpp1-symbol">);
+
+	scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;escolha);
+		
+		</span><span class="cpp1-reservedword">switch</span><span class="cpp1-symbol">(escolha)
+		{	
+			</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">:
+				sistema_cadastro();
+			</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">9</span><span class="cpp1-symbol">:
+				menu();
+				system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+			</span><span class="cpp1-reservedword">default</span><span class="cpp1-symbol">:		</span><span class="cpp1-comment">//caso seja digitado uma fun&ccedil;&atilde;o que nao existe o default faz a tratativa do erro
+</span><span class="cpp1-space">				printf(</span><span class="cpp1-string">&quot;Voce digitou uma opcao invalida, tente novamente!!!\n&quot;</span><span class="cpp1-symbol">);
+				system(</span><span class="cpp1-string">&quot;pause\n&quot;</span><span class="cpp1-symbol">);
+				menu();
+				</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;					
+		}
+	
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> menu()
+{		
+
+	</span><span class="cpp1-comment">// fun&ccedil;&atilde;o onde vai mostrar o menu do programa
+
+</span><span class="cpp1-space">	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);		</span><span class="cpp1-comment">// limpa todos os dados que aparecem na tela do programa, deixando em branco
+</span><span class="cpp1-space">	
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> escolha;		</span><span class="cpp1-comment">// declarando variaveis do tipo inteiro
+</span><span class="cpp1-space">	
+	paineli(); 			</span><span class="cpp1-comment">// chamando fun&ccedil;&atilde;o do void painel para apresentar o painel em cima da tela
+</span><span class="cpp1-space">	
+	printf(</span><span class="cpp1-string">&quot;1- CADASTRO\n2- VISUALIZAR CERTIFICADO\n3- ENVIAR CERTIFICCADO POR E-MAIL\n4- SORTEIO DE BRINDES\n5- VISUALIZAR LUGARES\n6- SAIR\n\n&quot;</span><span class="cpp1-symbol">);  </span><span class="cpp1-comment">//exibindo na tela os itens do menu e no scanf esta lendo a op&ccedil;&atilde;o digitada
+</span><span class="cpp1-space">	scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;escolha);
+					</span><span class="cpp1-comment">//quando escolhe switch o menu fica interativo, pois de acordo com a leitura da op&ccedil;&atilde;o digitada ele vai executar algum comando
+</span><span class="cpp1-space">		</span><span class="cpp1-reservedword">switch</span><span class="cpp1-symbol">(escolha)
+		{
+
+			</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">1</span><span class="cpp1-symbol">:
+			system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);		</span><span class="cpp1-comment">//limpando a tela
+</span><span class="cpp1-space">			painelc();
+			printf(</span><span class="cpp1-string">&quot;\n\n\n\nAbrindo Cadastro...\n0- Seguir P/ Cadastro\n9- Voltar ao menu\n&quot;</span><span class="cpp1-symbol">);
+			scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;escolha);
+		
+				</span><span class="cpp1-reservedword">switch</span><span class="cpp1-symbol">(escolha)
+				{			</span><span class="cpp1-comment">//outro switch, pois no printf acima ele mostra duas op&ccedil;&otilde;es
+</span><span class="cpp1-space">				</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">:
+				sistema_cadastro();
+				</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">9</span><span class="cpp1-symbol">:
+				menu();
+				system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+		
+			</span><span class="cpp1-reservedword">default</span><span class="cpp1-symbol">:		</span><span class="cpp1-comment">//caso seja digitado uma fun&ccedil;&atilde;o que nao existe o default faz a tratativa do erro
+</span><span class="cpp1-space">				printf(</span><span class="cpp1-string">&quot;Voce digitou uma opcao invalida, tente novamente!!!\n&quot;</span><span class="cpp1-symbol">);
+				system(</span><span class="cpp1-string">&quot;pause\n&quot;</span><span class="cpp1-symbol">);
+				menu();
+				</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;			
+				
+		}
+	</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+
+	</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">2</span><span class="cpp1-symbol">:
+
+		certificado(); 		</span><span class="cpp1-comment">//chama a fun&ccedil;&atilde;o void sistema_cadastro
+</span><span class="cpp1-space">		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;				</span><span class="cpp1-comment">//break faz com que o sistema interrompa o switch
+
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">3</span><span class="cpp1-symbol">:
+		system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+		painelcert();
+		printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+		printf(</span><span class="cpp1-string">&quot;Enviando Todos os Certificados Por E-mail, aguarde...\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+		
+		   Sleep(</span><span class="cpp1-number">5000</span><span class="cpp1-symbol">);
+				
+			
+
+				printf(</span><span class="cpp1-string">&quot;\t***FINALIZADO***\n&quot;</span><span class="cpp1-symbol">);		
+				printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+				system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+		menu();
+		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">4</span><span class="cpp1-symbol">:
+
+		sis_sorteio();
+		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">5</span><span class="cpp1-symbol">:
+
+		lugaresconv();
+		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;
+	</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">6</span><span class="cpp1-symbol">:
+
+		exit(</span><span class="cpp1-number">0</span><span class="cpp1-symbol">);
+		system(</span><span class="cpp1-string">&quot;exit&quot;</span><span class="cpp1-symbol">);
+
+	</span><span class="cpp1-reservedword">default</span><span class="cpp1-symbol">:		</span><span class="cpp1-comment">//caso seja digitado uma fun&ccedil;&atilde;o que nao existe o default faz a tratativa do erro
+
+</span><span class="cpp1-space">		printf(</span><span class="cpp1-string">&quot;Voce digitou uma opcao invalida, tente novamente!!!\n&quot;</span><span class="cpp1-symbol">);
+		system(</span><span class="cpp1-string">&quot;pause\n&quot;</span><span class="cpp1-symbol">);
+		menu();
+		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;	
+}
+	
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sistema_cadastro()
+{
+	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">); 
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> assento;
+
+	 							</span><span class="cpp1-comment">// informei que o 'x' que &eacute; do tipo inteiro recebe um valor de 200 - que seria a quantidade de assento disponivel
+
+</span><span class="cpp1-space">	</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(cont_base!=x)
+	{
+			</span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(assento=cont_base;assento&lt;=</span><span class="cpp1-number">105</span><span class="cpp1-symbol">;assento++)
+			{							</span><span class="cpp1-comment">//utilizado o for, e colocando a condi&ccedil;&atilde;o que assento vale 1 e enquanto ele for menor ou igual a 200 o looping do for continua rodando
+</span><span class="cpp1-space">	
+				x--; 						</span><span class="cpp1-comment">//x seria nosso contador e &eacute; o valor que aparece no printf abaixo mostrando a quantidade de assento vago
+</span><span class="cpp1-space">				cadastro();
+				system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				cont_base=assento+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+				printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+				</span><span class="cpp1-comment">// system pause faz uma pausa no programa e aguarda a intera&ccedil;&atilde;o com o usuario
+</span><span class="cpp1-space">				system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				novocadastro();
+			}
+	}
+	
+	</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">	{
+		printf(</span><span class="cpp1-string">&quot;Nao temos mais assentos disponiveis!\n\t\tMuito Obrigado.\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+		system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+		
+	}
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> cadastro()
+{
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> f;
+
+
+system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+SYSTEMTIME hora;		</span><span class="cpp1-comment">//variave que faz com que o programa identifique a hora do sistema
+</span><span class="cpp1-identifier">GetLocalTime(&amp;hora);
+
+	</span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;i++)
+	{
+		painelc();
+		ticket=(((cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)+</span><span class="cpp1-number">2018</span><span class="cpp1-symbol">)*</span><span class="cpp1-number">9</span><span class="cpp1-symbol">);
+		definir_lugar();
+		printf(</span><span class="cpp1-string">&quot;\nHora Cadastro: %d:%d %d/%d/%d\n\n&quot;</span><span class="cpp1-symbol">,hora.wHour,hora.wMinute,hora.wDay,hora.wMonth,hora.wYear);
+		printf(</span><span class="cpp1-string">&quot;RA: &quot;</span><span class="cpp1-symbol">);
+		scanf(</span><span class="cpp1-string">&quot; %s&quot;</span><span class="cpp1-symbol">,&amp;ra[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+		printf(</span><span class="cpp1-string">&quot;Nome: &quot;</span><span class="cpp1-symbol">);
+		scanf(</span><span class="cpp1-string">&quot; %70[^\n]s &quot;</span><span class="cpp1-symbol">,&amp;nome[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);			</span><span class="cpp1-comment">//quando utiliza &quot;  %70[^\n]s&quot;, o espa&ccedil;o inicial desconsidera qualquer tipo de espa&ccedil;o ou quabra de linha digitado no scanf acima, %70 identifico que esse scanf pode pegar ate 70 char [^\n] ignora qualquer espa&ccedil;o ou quebra de linha digitado nesse scanf, exe: ao digitar Joao da Silva, ele vai reconhecer os 3 nomes e sem isso ele reconhece apenas joao
+</span><span class="cpp1-space">		printf(</span><span class="cpp1-string">&quot;CPF: &quot;</span><span class="cpp1-symbol">);
+		scanf(</span><span class="cpp1-string">&quot; %s&quot;</span><span class="cpp1-symbol">,&amp;cpf[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+		printf(</span><span class="cpp1-string">&quot;E-mail: &quot;</span><span class="cpp1-symbol">);
+		scanf(</span><span class="cpp1-string">&quot; %70[^\n]s&quot;</span><span class="cpp1-symbol">,&amp;email[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+		printf(</span><span class="cpp1-string">&quot;Curso: &quot;</span><span class="cpp1-symbol">);
+		scanf(</span><span class="cpp1-string">&quot; %70[^\n]s\n&quot;</span><span class="cpp1-symbol">,&amp;curso[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][</span><span class="cpp1-number">0</span><span class="cpp1-symbol">]);
+		Sleep(</span><span class="cpp1-number">405</span><span class="cpp1-symbol">);
+		printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n\n\nUsuario Cadastrado!\n&quot;</span><span class="cpp1-symbol">);
+		Sleep(</span><span class="cpp1-number">705</span><span class="cpp1-symbol">);
+system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);	
+ 
+</span><span class="cpp1-comment">//abaixo a fun&ccedil;&atilde;o apenas mostra os valores digitados na tela anteriormente, para poder verificar as informa&ccedil;&otilde;es
+</span><span class="cpp1-symbol">}
+			painelc();
+			
+			printf(</span><span class="cpp1-string">&quot;\nHora Cadastro: %d:%d %d/%d/%d\n\n&quot;</span><span class="cpp1-symbol">,hora.wHour,hora.wMinute,hora.wDay,hora.wMonth,hora.wYear); 		</span><span class="cpp1-comment">//fun&ccedil;&otilde;es para retornar hora, minuto, dia, mes e ano do sistema, trazendo informa&ccedil;&otilde;es da API		
+</span><span class="cpp1-space">			printf(</span><span class="cpp1-string">&quot;\nTickeT: %i&quot;</span><span class="cpp1-symbol">,ticket);
+			printf(</span><span class="cpp1-string">&quot;\nNome do Participante: %s&quot;</span><span class="cpp1-symbol">,nome[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]);
+			printf(</span><span class="cpp1-string">&quot;\nRA: %s&quot;</span><span class="cpp1-symbol">,ra[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]);
+			printf(</span><span class="cpp1-string">&quot;\nCPF: %s&quot;</span><span class="cpp1-symbol">,cpf[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]);
+			printf(</span><span class="cpp1-string">&quot;\nE-mail: %s&quot;</span><span class="cpp1-symbol">,email[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]);
+			printf(</span><span class="cpp1-string">&quot;\nCurso: %s\n\n\n&quot;</span><span class="cpp1-symbol">,curso[cont_base-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]);
+
+			
+			system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> sis_sorteio()
+{
+	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+ 	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> sorteio,qtdnum,escolha,verificaa,verificab;
+    
+
+     	painels();
+				
+     </span><span class="cpp1-comment">// o if abaixo impede que voce fa&ccedil;a um sorteio sem que tenha nenhuma pessoa cadastrada na palestra
+</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(numsorte==</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+{
+	printf(</span><span class="cpp1-string">&quot;\n\n\n\tNao temos numeros para sorteio\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+	system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+	menu();
+}
+</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-symbol">{     
+ 	 printf(</span><span class="cpp1-string">&quot;Os numeros sorteados foram:\n\n&quot;</span><span class="cpp1-symbol">);
+     srand(time(NULL));
+   
+   	
+           </span><span class="cpp1-comment">/* gerando valores aleat&oacute;rios entre zero e quantidade de pessoas */
+</span><span class="cpp1-space">			verificaa=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+			verificab=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+			
+			</span><span class="cpp1-reservedword">while</span><span class="cpp1-symbol">(verificaa==verificab &amp;&amp; verificab==</span><span class="cpp1-number">0</span><span class="cpp1-space"> &amp;&amp; verificaa==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+			{
+			verificaa=rand() % numsorte;
+			verificab=rand() % numsorte;
+							
+				
+			}
+			
+        	printf(</span><span class="cpp1-string">&quot;|%d| |%d| 	&quot;</span><span class="cpp1-symbol">,verificaa,verificab);
+    	 
+    }
+    
+    
+    printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\nDigite os numeros sorteados abaixo:\n&quot;</span><span class="cpp1-symbol">);
+     
+	 
+	 	</span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (sorteio= </span><span class="cpp1-number">1</span><span class="cpp1-symbol">;sorteio&lt;</span><span class="cpp1-number">3</span><span class="cpp1-symbol">; sorteio++)
+     	{
+           </span><span class="cpp1-comment">// abaixo os sitema vai pedir para o usuario digitar o numero que apareceu acima, e ele mostra na tela o ticket do ganhador, podendo consultar na tela de visualizar certificado
+
+</span><span class="cpp1-space">			printf(</span><span class="cpp1-string">&quot;|\t: &quot;</span><span class="cpp1-symbol">);
+			scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;qtdnum);
+			printf(</span><span class="cpp1-string">&quot;\t&quot;</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;%i\n&quot;</span><span class="cpp1-symbol">,contsorteio[qtdnum]);
+    	 }
+    
+    	 
+    	 
+		printf(</span><span class="cpp1-string">&quot;\n\n\n\n\nDeseja um novo Sorteio?\n0- Sim\n9- Voltar ao menu\n&quot;</span><span class="cpp1-symbol">);
+		
+		scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;escolha);
+		
+		</span><span class="cpp1-reservedword">switch</span><span class="cpp1-symbol">(escolha)
+		{			</span><span class="cpp1-comment">//outro switch, pois no printf acima ele mostra duas op&ccedil;&otilde;es
+</span><span class="cpp1-space">			</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">:
+				sis_sorteio();
+			</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">9</span><span class="cpp1-symbol">:
+				menu();
+				system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+			</span><span class="cpp1-reservedword">default</span><span class="cpp1-symbol">:		</span><span class="cpp1-comment">//caso seja digitado uma fun&ccedil;&atilde;o que nao existe o default faz a tratativa do erro
+</span><span class="cpp1-space">				printf(</span><span class="cpp1-string">&quot;Voce digitou uma opcao invalida, tente novamente!!!\n&quot;</span><span class="cpp1-symbol">);
+				system(</span><span class="cpp1-string">&quot;pause\n&quot;</span><span class="cpp1-symbol">);
+				menu();
+				</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;	
+		}
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> inicio_prog()
+{	
+</span><span class="cpp1-comment">//fun&ccedil;&atilde;o abaixo e a tela de carregamento no inicio do projeto
+
+
+</span><span class="cpp1-space">	printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t&quot;</span><span class="cpp1-symbol">);
+	system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> ii,jj;
+	
+
+	</span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (ii = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; ii &lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">; ii++) {
+		system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+		printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+      		printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t\t\t\t\tCARREGANDO \n\n&quot;</span><span class="cpp1-symbol">);
+        	printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t\t&quot;</span><span class="cpp1-symbol">);
+      		</span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (jj = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; jj &lt; </span><span class="cpp1-number">50</span><span class="cpp1-symbol">; jj++) {
+            printf(</span><span class="cpp1-string">&quot;|&quot;</span><span class="cpp1-symbol">);
+            Sleep(</span><span class="cpp1-number">25</span><span class="cpp1-symbol">);
+        }
+        printf(</span><span class="cpp1-string">&quot;\r&quot;</span><span class="cpp1-symbol">);
+        </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (jj = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; jj &lt; </span><span class="cpp1-number">120</span><span class="cpp1-symbol">; jj++) {
+            printf(</span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-symbol">); </span><span class="cpp1-comment">// apaga a linha anterior
+</span><span class="cpp1-space">            Sleep(</span><span class="cpp1-number">10</span><span class="cpp1-symbol">);
+        }
+        printf(</span><span class="cpp1-string">&quot;\r&quot;</span><span class="cpp1-symbol">);
+        
+		}
+		Sleep(</span><span class="cpp1-number">500</span><span class="cpp1-symbol">);
+		</span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (jj = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; jj &lt; </span><span class="cpp1-number">3</span><span class="cpp1-symbol">; jj++) {
+		system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+		printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+        printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t\t\t\tControle de Palestra - UNIP \n&quot;</span><span class="cpp1-symbol">);
+		printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);			
+            printf(</span><span class="cpp1-string">&quot;\t\t\t\t\t\t\t\t\t\tC&quot;</span><span class="cpp1-symbol">);
+            Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">);
+            printf(</span><span class="cpp1-string">&quot;A&quot;</span><span class="cpp1-symbol">);
+            Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">);
+            printf(</span><span class="cpp1-string">&quot;R&quot;</span><span class="cpp1-symbol">);            
+            Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">);
+            printf(</span><span class="cpp1-string">&quot;R&quot;</span><span class="cpp1-symbol">);
+            Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">); 
+			printf(</span><span class="cpp1-string">&quot;E&quot;</span><span class="cpp1-symbol">);
+			Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;G&quot;</span><span class="cpp1-symbol">);
+			Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;A&quot;</span><span class="cpp1-symbol">);
+			Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;N&quot;</span><span class="cpp1-symbol">);
+			Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;D&quot;</span><span class="cpp1-symbol">);            
+			Sleep(</span><span class="cpp1-number">105</span><span class="cpp1-symbol">);
+			printf(</span><span class="cpp1-string">&quot;O&quot;</span><span class="cpp1-symbol">);
+            Sleep(</span><span class="cpp1-number">155</span><span class="cpp1-symbol">);
+        }
+		Sleep(</span><span class="cpp1-number">700</span><span class="cpp1-symbol">);
+		zerarlugar();
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> certificado()
+{
+	</span><span class="cpp1-comment">//visualiza&ccedil;&atilde;o do certificado, onde o usuario vai digitar o numero do ticket e ele busca os valores
+</span><span class="cpp1-space">	
+	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+	
+	SYSTEMTIME hora;		</span><span class="cpp1-comment">//variave que faz com que o programa identifique a hora do sistema
+</span><span class="cpp1-space">	GetLocalTime(&amp;hora);
+
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> procura,procurax;
+	
+	printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n\nPor Favor Informe o Ticket! &quot;</span><span class="cpp1-symbol">);
+	scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;procurax);
+		
+	
+	procura=((procurax/</span><span class="cpp1-number">9</span><span class="cpp1-symbol">)-</span><span class="cpp1-number">2018</span><span class="cpp1-symbol">);
+	
+	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+	
+	
+	painelcer();
+			
+			printf(</span><span class="cpp1-string">&quot;\nHora Cadastro: %d:%d %d/%d/%d\n\n&quot;</span><span class="cpp1-symbol">,hora.wHour,hora.wMinute,hora.wDay,hora.wMonth,hora.wYear);		</span><span class="cpp1-comment">//fun&ccedil;&otilde;es para retornar hora, minuto, dia, mes e ano do sistema, trazendo informa&ccedil;&otilde;es da API		
+</span><span class="cpp1-space">			printf(</span><span class="cpp1-string">&quot;\nNome do Participante: %s&quot;</span><span class="cpp1-symbol">,nome[procura]);
+			printf(</span><span class="cpp1-string">&quot;\nRA: %s&quot;</span><span class="cpp1-symbol">,ra[procura]);
+			printf(</span><span class="cpp1-string">&quot;\nCPF: %s&quot;</span><span class="cpp1-symbol">,cpf[procura]);
+			printf(</span><span class="cpp1-string">&quot;\nE-mail: %s&quot;</span><span class="cpp1-symbol">,email[procura]);
+			printf(</span><span class="cpp1-string">&quot;\nCurso: %s&quot;</span><span class="cpp1-symbol">,curso[procura]);
+			printf(</span><span class="cpp1-string">&quot;\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+
+	system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+	
+	menu(); 
+
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> definir_lugar()
+{
+	</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> descolha;
+	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+	painelc();
+	
+	printf(</span><span class="cpp1-string">&quot;\n\n\n1- Convidados\n2- PCD\n3- Plateia\n\n\n&quot;</span><span class="cpp1-symbol">);
+	scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;descolha);
+	
+	</span><span class="cpp1-reservedword">switch</span><span class="cpp1-symbol">(descolha)
+	{
+		
+	</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">1</span><span class="cpp1-symbol">:
+			
+			</span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">2</span><span class="cpp1-symbol">;i++)
+			 {
+			 	</span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;j&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;j++)
+			 	{
+			 		</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(convcad[i][j]==</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+			 		{
+			 			validap=validap+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+			 		}
+			 	
+				 }
+				 
+			}
+			
+</span><span class="cpp1-comment">//			if abaixo verifica se todos os assentos foram estao preenchidos
+
+</span><span class="cpp1-space">			 </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(validap&gt;=</span><span class="cpp1-number">20</span><span class="cpp1-symbol">) </span><span class="cpp1-comment">//  20 &eacute; a quantidade maxima de pessoas que podem ocupar os assentos para convidados
+</span><span class="cpp1-space">				 {	
+				 	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	painelc();
+					printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\t\t\t\tNao temos mais assentos disponiveis!\n\tMuito Obrigado.\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+					system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+					system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	definir_lugar();
+			
+				 }
+				 </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">				 {
+
+				 	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	painelc();
+				 	printf(</span><span class="cpp1-string">&quot;\nFila: &quot;</span><span class="cpp1-symbol">);
+					scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;linha);
+					printf(</span><span class="cpp1-string">&quot;\nColuna: &quot;</span><span class="cpp1-symbol">);
+					scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;coluna);
+					
+					
+			 		</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(linha&gt;</span><span class="cpp1-number">2</span><span class="cpp1-space"> || linha==</span><span class="cpp1-number">0</span><span class="cpp1-space"> || coluna&gt;</span><span class="cpp1-number">10</span><span class="cpp1-space"> || coluna==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)  </span><span class="cpp1-comment">// o sistema esta validando se o numero de cadeira &eacute; valida e esta disponivel
+</span><span class="cpp1-space">					{
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 				painelc();
+								printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\t\t\t\tDigite cadeira valida!!!!\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+								 sistema_cadastro();
+					}
+					</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">					{	
+					convcad[linha-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][coluna-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+					}
+				 }
+				
+				
+		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;	
+	</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">2</span><span class="cpp1-symbol">:
+			
+			
+			</span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;i++)
+			 {
+			 	</span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;j&lt;</span><span class="cpp1-number">5</span><span class="cpp1-symbol">;j++)
+			 	{
+			 		</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(pcdcad[i][j]==</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+			 		{
+			 			validapcd=validapcd+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+			 		}
+			 	
+				 }
+				 
+			}
+			
+			 </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(validapcd&gt;=</span><span class="cpp1-number">5</span><span class="cpp1-symbol">) </span><span class="cpp1-comment">//  05 &eacute; a quantidade maxima de pessoas que podem ocupar os assentos para pessoas com deficiencias PCD
+</span><span class="cpp1-space">				 {	
+				 	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	painelc();
+					printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\t\t\t\tNao temos mais assentos disponiveis!\n\tMuito Obrigado.\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+					system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+					system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	definir_lugar();
+			
+				 }
+				 </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">				 {
+				 	
+				 	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	painelc();
+				 	printf(</span><span class="cpp1-string">&quot;\nTickeT: %i&quot;</span><span class="cpp1-symbol">,ticket);
+				 	printf(</span><span class="cpp1-string">&quot;\nFila: &quot;</span><span class="cpp1-symbol">);
+					scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;linha);
+					printf(</span><span class="cpp1-string">&quot;\nColuna: &quot;</span><span class="cpp1-symbol">);
+					scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;coluna);
+					
+						</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(linha&gt;</span><span class="cpp1-number">1</span><span class="cpp1-space"> || linha==</span><span class="cpp1-number">0</span><span class="cpp1-space"> || coluna&gt;</span><span class="cpp1-number">5</span><span class="cpp1-space"> || coluna==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">) </span><span class="cpp1-comment">// o sistema esta validando se o numero de cadeira &eacute; valida e esta disponivel
+</span><span class="cpp1-space">					{
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 				painelc();
+								printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\t\t\t\tDigite cadeira valida!!!!\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+								definir_lugar();
+					}
+					</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">					{	
+							</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(pcdcad[linha-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][coluna-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]==</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+								{
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 				painelc();
+								printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\t\t\t\tcadeira ja esta ocupada!!!!\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+								definir_lugar();
+								}
+							</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">								{			
+								pcdcad[linha-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][coluna-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+								contsorteio[numsorte]=ticket;
+								numsorte=numsorte+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+								}
+					}
+				 }
+		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;		
+		
+
+					
+
+	</span><span class="cpp1-reservedword">case</span><span class="cpp1-space"> </span><span class="cpp1-number">3</span><span class="cpp1-symbol">:
+			
+			
+			</span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">8</span><span class="cpp1-symbol">;i++)
+			 {
+			 	</span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;j&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;j++)
+			 	{
+			 		</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(cad[i][j]==</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+			 		{
+			 			validac=validac+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+			 		}
+			 	
+				 }
+				 
+			}
+			
+			 </span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(validac&gt;=</span><span class="cpp1-number">80</span><span class="cpp1-symbol">)  </span><span class="cpp1-comment">//  80 &eacute; a quantidade maxima de pessoas que podem ocupar os assentos para plateia geral
+</span><span class="cpp1-space">				 {	
+				 	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	painelc();
+					printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\t\t\t\tNao temos mais assentos disponiveis!\n\tMuito Obrigado.\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+					system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+					system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	definir_lugar();
+			
+				 }
+				 </span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">				 {
+				 	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 	painelc();
+				 	printf(</span><span class="cpp1-string">&quot;\nTickeT: %i&quot;</span><span class="cpp1-symbol">,ticket);
+				 	printf(</span><span class="cpp1-string">&quot;\nFila: &quot;</span><span class="cpp1-symbol">);
+					scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;linha);
+					printf(</span><span class="cpp1-string">&quot;\nColuna: &quot;</span><span class="cpp1-symbol">);
+					scanf(</span><span class="cpp1-string">&quot;%i&quot;</span><span class="cpp1-symbol">,&amp;coluna);
+					
+					</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(linha&gt;</span><span class="cpp1-number">8</span><span class="cpp1-space"> || linha==</span><span class="cpp1-number">0</span><span class="cpp1-space"> ||coluna&gt;</span><span class="cpp1-number">10</span><span class="cpp1-space"> || coluna==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)  </span><span class="cpp1-comment">// o sistema esta validando se o numero de cadeira &eacute; valida e esta disponivel
+</span><span class="cpp1-space">					{
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 				painelc();
+								printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\t\t\t\tDigite cadeira valida!!!!\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+								definir_lugar();
+					}
+					</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">					{				
+							</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(cad[linha-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][coluna-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]==</span><span class="cpp1-number">1</span><span class="cpp1-symbol">)
+								{
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+				 				painelc();
+								printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\t\t\t\tcadeira ja esta ocupada!!!!\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+								system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+								definir_lugar();
+								}
+							</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space">								{			
+								cad[linha-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">][coluna-</span><span class="cpp1-number">1</span><span class="cpp1-symbol">]=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+								contsorteio[numsorte]=ticket;
+								numsorte=numsorte+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+								}
+					}
+
+		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;					
+					
+	</span><span class="cpp1-reservedword">default</span><span class="cpp1-symbol">:		</span><span class="cpp1-comment">//caso seja digitado uma fun&ccedil;&atilde;o que nao existe o default faz a tratativa do erro
+</span><span class="cpp1-space">	
+		printf(</span><span class="cpp1-string">&quot;Voce digitou uma opcao invalida, tente novamente!!!\n&quot;</span><span class="cpp1-symbol">);
+		system(</span><span class="cpp1-string">&quot;pause\n&quot;</span><span class="cpp1-symbol">);
+		system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+		menu();
+		</span><span class="cpp1-reservedword">break</span><span class="cpp1-symbol">;	
+	}
+ }
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> lugares()
+{
+</span><span class="cpp1-comment">// fun&ccedil;&atilde;o printa na tela as cadeiras disponivel e ocupadas com desenhos de acordo com a tabela ascii, mostrando apenas as plateias
+</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">8</span><span class="cpp1-symbol">;i++)
+ {
+ 	
+ 		 printf(</span><span class="cpp1-string">&quot;\t\t\t\t&quot;</span><span class="cpp1-symbol">);
+ 	</span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;j&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;j++)
+ 	{
+ 		</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(cad[i][j]==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+ 		{
+ 			printf(</span><span class="cpp1-string">&quot;%i%c%i\t&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">176</span><span class="cpp1-symbol">,j+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+ 		}
+ 		</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space"> 		{
+ 			printf(</span><span class="cpp1-string">&quot;%i%c%i\t&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">219</span><span class="cpp1-symbol">,j+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+		 }
+	 }
+	 printf(</span><span class="cpp1-string">&quot;\t : Plat.\n&quot;</span><span class="cpp1-symbol">);
+ }
+ printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);
+ system(</span><span class="cpp1-string">&quot;pause&quot;</span><span class="cpp1-symbol">);
+ menu();
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> lugarespcd()
+{
+
+</span><span class="cpp1-comment">// fun&ccedil;&atilde;o printa na tela as cadeiras disponivel e ocupadas com desenhos de acordo com a tabela ascii, mostrando apenas os pcd
+</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;i++)
+ {
+ 	
+ 		 printf(</span><span class="cpp1-string">&quot;\t\t\t\t&quot;</span><span class="cpp1-symbol">);
+ 	</span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;j&lt;</span><span class="cpp1-number">5</span><span class="cpp1-symbol">;j++)
+ 	{
+ 		</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(pcdcad[i][j]==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+ 		{
+ 			printf(</span><span class="cpp1-string">&quot;\t%i%c%i\t&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">176</span><span class="cpp1-symbol">,j+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+ 		}
+ 		</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space"> 		{
+ 			printf(</span><span class="cpp1-string">&quot;\t%i%c%i\t&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">219</span><span class="cpp1-symbol">,j+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+		 }
+	 }
+	 printf(</span><span class="cpp1-string">&quot;\t : PCD \n&quot;</span><span class="cpp1-symbol">);
+ }
+lugares();
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> lugaresconv()
+{
+	
+	</span><span class="cpp1-comment">// fun&ccedil;&atilde;o printa na tela as cadeiras disponivel e ocupadas com desenhos de acordo com a tabela ascii, mostrando apenas os convidados
+</span><span class="cpp1-space">	system(</span><span class="cpp1-string">&quot;cls&quot;</span><span class="cpp1-symbol">);
+
+		 printf(</span><span class="cpp1-string">&quot;\n\n\n\n\n&quot;</span><span class="cpp1-symbol">);	
+		 	planta();
+ </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (i=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;i&lt;</span><span class="cpp1-number">2</span><span class="cpp1-symbol">;i++)
+ {
+ 	
+ 		 printf(</span><span class="cpp1-string">&quot;\t\t\t\t&quot;</span><span class="cpp1-symbol">);
+ 	</span><span class="cpp1-reservedword">for</span><span class="cpp1-symbol">(j=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;j&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;j++)
+ 	{
+ 		</span><span class="cpp1-reservedword">if</span><span class="cpp1-symbol">(convcad[i][j]==</span><span class="cpp1-number">0</span><span class="cpp1-symbol">)
+ 		{
+ 			printf(</span><span class="cpp1-string">&quot;%i%c%i\t&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">176</span><span class="cpp1-symbol">,j+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+ 		}
+ 		</span><span class="cpp1-reservedword">else
+</span><span class="cpp1-space"> 		{
+ 			printf(</span><span class="cpp1-string">&quot;%i%c%i\t&quot;</span><span class="cpp1-symbol">,i+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">,</span><span class="cpp1-number">219</span><span class="cpp1-symbol">,j+</span><span class="cpp1-number">1</span><span class="cpp1-symbol">);
+		 }
+	 }
+	 printf(</span><span class="cpp1-string">&quot;\t : Conv.\n&quot;</span><span class="cpp1-symbol">);
+ }
+
+ lugarespcd();
+}
+
+</span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> zerarlugar()
+{
+</span><span class="cpp1-comment">// fun&ccedil;&atilde;o abaixo zera toda a matriz oonde contem informa&ccedil;&atilde;o de cadeiras
+</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (zerari=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;zerari&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;zerari++)
+ {
+ 	 </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (zerarj=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;zerarj&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;zerarj++)
+ 	 {
+ 	 	cad[zerari][zerarj]=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	  }
+ }
+ 
+  </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (zeraripcd=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;zeraripcd&lt;</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;zeraripcd++)
+ {
+ 	 </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (zerarjpcd=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;zerarjpcd&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;zerarjpcd++)
+ 	 {
+ 	 	pcdcad[zeraripcd][zerarjpcd]=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	  }
+ }
+ 
+   </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (zerariconv=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;zerariconv&lt;</span><span class="cpp1-number">2</span><span class="cpp1-symbol">;zerariconv++)
+ {
+ 	 </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (zerarjconv=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;zerarjconv&lt;</span><span class="cpp1-number">10</span><span class="cpp1-symbol">;zerarjconv++)
+ 	 {
+ 	 	convcad[zerarjconv][zerarjconv]=</span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+	  }
+ }
+ menu();
+}
+  
+ </span><span class="cpp1-comment">//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> main()
+{
+
+	</span><span class="cpp1-comment">// inicio do programa
+
+</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> escolha;
+x=</span><span class="cpp1-number">105</span><span class="cpp1-symbol">;
+numsorte=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+
+	cont_base=</span><span class="cpp1-number">1</span><span class="cpp1-symbol">;
+inicio_prog();				</span><span class="cpp1-comment">//chama o void menu(), e come&ccedil;a a rodar o programa
+
+</span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; 
+}
+</span></span>
+</code></pre>
+</body>
+</html>
